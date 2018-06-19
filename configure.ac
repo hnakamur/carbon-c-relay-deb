@@ -122,9 +122,13 @@ AS_IF([test "x$with_ssl" != xno],
 					[LIBSSL="-lssl"
 					AC_DEFINE([HAVE_SSL], [1], [Define if you have ssl])
 					AC_CHECK_LIB([crypto],
-								 [OPENSSL_add_all_algorithms_noconf],
+								 [OPENSSL_init_crypto],
 								 [LIBSSL="${LIBSSL} -lcrypto"],
-								 [])
+								 [AC_CHECK_LIB([crypto],
+								 	[OPENSSL_add_all_algorithms_noconf],
+								 	[LIBSSL="${LIBSSL} -lcrypto"],
+									[])
+								 ])
 					AC_SUBST([LIBSSL], ["${LIBSSL}"])
 					],
 					[if test "x$with_ssl" != xcheck; then
