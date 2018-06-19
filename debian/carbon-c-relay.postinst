@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" != "configure" ]; then
+    exit 0
+fi
+
+# Set permisions on default log directory on installation
+if [ -z "$2" ]; then
+    chown carbon:carbon /var/log/carbon-c-relay
+fi
+
+if invoke-rc.d carbon-c-relay status >/dev/null; then
+    echo "######################################"
+    echo "# Please restart carbon-c-relay manually. #"
+    echo "######################################"
+else
+    invoke-rc.d carbon-c-relay start || true
+fi
+
+#DEBHELPER#
+
+exit 0

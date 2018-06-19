@@ -1,0 +1,17 @@
+[Unit]
+Description=graphite relay, aggregator and rewriter
+After=syslog.target network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/default/carbon-c-relay
+ExecStart=/usr/bin/relay $CARBONCRELAY_ARGS
+ExecReload=/usr/bin/kill -HUP $MAINPID
+LimitNOFILE=200000
+RuntimeDirectory=carbon-c-relay
+RuntimeDirectoryMode=0755
+User=carbon
+Group=carbon
+
+[Install]
+WantedBy=multi-user.target

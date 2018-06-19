@@ -13,6 +13,13 @@
 # package maintainers to append LDFLAGS
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
+INSTALLDIR = $(CURDIR)/debian/carbon-c-relay
 
 %:
 	dh $@ --with quilt
+
+override_dh_install:
+	dh_install
+	mkdir -p $(INSTALLDIR)/etc/default
+	install -m 644 debian/carbon-c-relay.env $(INSTALLDIR)/etc/default/carbon-c-relay
+
